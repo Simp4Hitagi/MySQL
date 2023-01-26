@@ -5,25 +5,25 @@ USE VinlandSagaDB;
 CREATE TABLE Heroes(ID INT PRIMARY KEY AUTO_INCREMENT NOT NULL, 
 HfirstName VARCHAR(20), 
 HlastName VARCHAR(30), 
-Hage INT, Hpay INT);
+Hage INT, Hpay INT, Hdate DATE);
 
 CREATE TABLE Villians(ID INT NOT NULL, 
 VfirstName VARCHAR(20), 
 VlastName VARCHAR(30), 
 Vage INT, CONSTRAINT VFKey FOREIGN KEY(ID) REFERENCES Heroes(ID),
-Vpay INT);
+Vpay INT, Vdate DATE);
 
-INSERT INTO Heroes VALUES(1, 'Thorfinn', 'Tors', 16, 10002),
-(DEFAULT, 'Askeladd', 'Choppyhead', 48, 3262),
-(DEFAULT, 'Troll', 'OfJohm', 76, 32231),
-(DEFAULT, 'Ragnar', 'Bethelthyme', 35, 6373),
-(DEFAULT, 'Bjorn', 'Bethelthyme', 12, 27676);
+INSERT INTO Heroes VALUES(1, 'Thorfinn', 'Tors', 16, 10002, '2022-03-15'),
+(DEFAULT, 'Askeladd', 'Choppyhead', 48, 3262, '2023-04-23'),
+(DEFAULT, 'Troll', 'OfJohm', 76, 32231, '2022-02-20'),
+(DEFAULT, 'Ragnar', 'Bethelthyme', 35, 6373, '2032-03-31'),
+(DEFAULT, 'Bjorn', 'Bethelthyme', 12, 27676, '1999-12-25');
 
-INSERT INTO Villians VALUES(1, 'King', 'Douce', 69, 202),
-(2, 'Kanut', 'FlappySkin', 14, 1512),
-(3, 'Rollo', 'Drools', 82, 2112),
-(4, 'Lorde', 'Inscuere', 119, 9387),
-(5, 'Duede', 'Hawst', 29, 92931);
+INSERT INTO Villians VALUES(1, 'King', 'Douce', 69, 202, '2003-09-08'),
+(2, 'Kanut', 'FlappySkin', 14, 1512, '2023-01-26'),
+(3, 'Rollo', 'Drools', 82, 2112, '1832-07-07'),
+(4, 'Lorde', 'Inscuere', 119, 9387, '1783-12-04'),
+(5, 'Duede', 'Hawst', 29, 92931, '2001-02-21');
 
 UPDATE Heroes
 SET Hage = 17
@@ -45,7 +45,7 @@ SELECT Hage
 FROM Heroes
 WHERE Hage BETWEEN 2 AND 4);
 
-SELECT h.HfirstName, h.HlastName, h.Hage, h.Hpay, v.VfirstName, v.VlastName, v.Vage, v.Vpay
+SELECT h.HfirstName, h.HlastName, h.Hage, h.Hpay, h.Hdate , v.VfirstName, v.VlastName, v.Vage, v.Vpay, v.Vdate
 FROM Heroes h
 INNER JOIN Villians v
 ON h.ID = v.ID;
@@ -75,4 +75,17 @@ SELECT SUM(v.Vpay) 'Total'
 FROM Villians v
 INNER JOIN Heroes h
 USING(ID);
+
+CREATE INDEX idx_HfirstName
+ON Heroes(HfirstName);
+
+CREATE VIEW HandV AS
+	SELECT h.HfirstName, h.HlastName, h.Hage,
+	v.Vpay, v.Vdate
+	FROM Heroes h
+	INNER JOIN Villians v
+	USING(ID);
+SELECT *
+FROM Handv;
+    
 
