@@ -29,9 +29,9 @@ UPDATE Heroes
 SET Hage = 17
 WHERE ID = 1;
 
-DELETE
-FROM Villians
-WHERE ID BETWEEN 1 AND 3;
+-- DELETE
+-- FROM Villians
+-- WHERE ID BETWEEN 1 AND 3;
 
 
 
@@ -87,5 +87,14 @@ CREATE VIEW HandV AS
 	USING(ID);
 SELECT *
 FROM Handv;
+
+
+SELECT h.HfirstName, h.HlastName, h.Hage, h.Hdate,
+CONCAT('R', FORMAT(v.Vpay, 2)) 'Villians Pay'
+FROM Heroes h
+LEFT JOIN Villians v
+USING (ID);
+
+
     
 
